@@ -1,10 +1,8 @@
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 var mapPins = document.querySelector('.map__pins');
-var mapFilters = document.querySelector('map__filters-container');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var fragment = document.createDocumentFragment();
 var offers = [];
 var times = document.querySelector('#timein').options;
 var types = document.querySelector('#housing-type').children;
@@ -99,15 +97,19 @@ var renderCard = function (random) {
   cardElement.querySelector('.popup__description').textContent = random.offer.description;
   cardElement.querySelector('.popup__avatar').src = random.author.avatar;
   fragment.appendChild(cardElement);
-  map.insertBefore(fragment, mapFilters);
+  map.insertBefore(fragment, mapPins.nextSibling);
 };
 
-for (var i = 1; i < 9; i++) {
-  var randomOffer = getRandomOffer(i);
-  randomOffer.offer.address = randomOffer.location.x + ', ' + randomOffer.location.y;
-  offers.push(randomOffer);
-  fragment.appendChild(renderOffer(randomOffer));
-}
+var renderPins = function (number) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 1; i <= number; i++) {
+    var randomOffer = getRandomOffer(i);
+    randomOffer.offer.address = randomOffer.location.x + ', ' + randomOffer.location.y;
+    offers.push(randomOffer);
+    fragment.appendChild(renderOffer(randomOffer));
+  }
+  mapPins.appendChild(fragment);
+};
 
-mapPins.appendChild(fragment);
+renderPins(8);
 renderCard(offers[0]);
