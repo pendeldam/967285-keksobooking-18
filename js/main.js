@@ -58,7 +58,7 @@ var getRandomOffer = function (number) {
 var renderOffer = function (some) {
   var offerElement = mapPinTemplate.cloneNode(true);
   mapPinTemplate.style.left = some.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
-  mapPinTemplate.style.top = some.location.y - mapPinTemplate.firstElementChild.height / 2 + 'px';
+  mapPinTemplate.style.top = some.location.y - mapPinTemplate.firstElementChild.height + 'px';
   mapPinTemplate.firstElementChild.src = some.author.avatar;
   mapPinTemplate.firstElementChild.alt = some.offer.title;
   return offerElement;
