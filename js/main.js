@@ -57,10 +57,10 @@ var getRandomOffer = function (number) {
 
 var renderOffer = function (some) {
   var offerElement = mapPinTemplate.cloneNode(true);
-  mapPinTemplate.style.left = some.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
-  mapPinTemplate.style.top = some.location.y - mapPinTemplate.firstElementChild.height + 'px';
-  mapPinTemplate.firstElementChild.src = some.author.avatar;
-  mapPinTemplate.firstElementChild.alt = some.offer.title;
+  offerElement.style.left = some.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
+  offerElement.style.top = some.location.y - mapPinTemplate.firstElementChild.height + 'px';
+  offerElement.firstElementChild.src = some.author.avatar;
+  offerElement.firstElementChild.alt = some.offer.title;
   return offerElement;
 };
 
