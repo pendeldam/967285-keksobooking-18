@@ -1,8 +1,10 @@
+var KEYCODE_ENTER = 13;
 var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
 var mapFilters = map.querySelector('.map__filters');
-var mapPins = map.querySelector('.map__pins');
 var mapPinMain = map.querySelector('.map__pin--main');
+/*
+var mapPins = map.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var offers = [];
@@ -14,7 +16,6 @@ var photosList = [
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
 ];
-var KEYCODE_ENTER = 13;
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -66,7 +67,7 @@ var renderOffer = function (pin) {
   offerElement.firstElementChild.alt = pin.offer.title;
   return offerElement;
 };
-/*
+
 var renderCard = function (random) {
   var fragment = document.createDocumentFragment();
   var cardElement = cardTemplate.cloneNode(true);
