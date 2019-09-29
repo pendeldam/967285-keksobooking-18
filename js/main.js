@@ -66,7 +66,7 @@ var renderOffer = function (pin) {
   offerElement.firstElementChild.alt = pin.offer.title;
   return offerElement;
 };
-
+/*
 var renderCard = function (random) {
   var fragment = document.createDocumentFragment();
   var cardElement = cardTemplate.cloneNode(true);
@@ -113,7 +113,7 @@ var renderPins = function (number) {
   }
   mapPins.appendChild(fragment);
 };
-
+*/
 var disableForm = function (form, input) {
   form.querySelectorAll(input).forEach(function (item) {
     item.setAttribute('disabled', true);
@@ -194,7 +194,7 @@ var checkGuestsNumber = function () {
   }
 };
 
-document.querySelector('.map__pin--main').addEventListener('mousedown', function (evt) {
+document.querySelector('.map__pin--main').addEventListener('mousedown', function () {
   enablePage();
   getPinCoordinates();
 });
