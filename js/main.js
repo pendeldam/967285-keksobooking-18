@@ -1,6 +1,8 @@
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-var mapPins = document.querySelector('.map__pins');
+var adForm = document.querySelector('.ad-form');
+var mapFilters = map.querySelector('.map__filters');
+var mapPins = map.querySelector('.map__pins');
+var mapPinMain = map.querySelector('.map__pin--main');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var offers = [];
@@ -12,6 +14,7 @@ var photosList = [
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
 ];
+var KEYCODE_ENTER = 13;
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -55,12 +58,12 @@ var getRandomOffer = function (number) {
   return randomOffer;
 };
 
-var renderOffer = function (some) {
+var renderOffer = function (pin) {
   var offerElement = mapPinTemplate.cloneNode(true);
-  offerElement.style.left = some.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
-  offerElement.style.top = some.location.y - mapPinTemplate.firstElementChild.height + 'px';
-  offerElement.firstElementChild.src = some.author.avatar;
-  offerElement.firstElementChild.alt = some.offer.title;
+  offerElement.style.left = pin.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
+  offerElement.style.top = pin.location.y - mapPinTemplate.firstElementChild.height + 'px';
+  offerElement.firstElementChild.src = pin.author.avatar;
+  offerElement.firstElementChild.alt = pin.offer.title;
   return offerElement;
 };
 
@@ -111,5 +114,108 @@ var renderPins = function (number) {
   mapPins.appendChild(fragment);
 };
 
-renderPins(8);
-renderCard(offers[0]);
+var disableForm = function (form, input) {
+  form.querySelectorAll(input).forEach(function (item) {
+    item.setAttribute('disabled', true);
+  })
+};
+
+var enableForm = function (form, input) {
+  form.querySelectorAll(input).forEach(function (item) {
+    item.removeAttribute('disabled');
+  })
+};
+
+var enablePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  enableForm(adForm, 'fieldset');
+  enableForm(mapFilters, 'select');
+  setOfferPrice('flat');
+};
+
+var disablePage = function () {
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+  disableForm(adForm, 'fieldset');
+  disableForm(mapFilters, 'select');
+  getPinCoordinates();
+};
+
+var getPinCoordinates = function () {
+  var axisX= mapPinMain.offsetTop;
+  var axisY= mapPinMain.offsetLeft;
+
+  if (!map.classList.contains('map--faded')) {
+    adForm.querySelector('#address').value = Math.ceil(axisX + mapPinMain.offsetHeight / 2) + ', ' + Math.ceil(axisY + mapPinMain.offsetWidth / 2);
+  } else {
+      adForm.querySelector('#address').value = axisX + ', ' + axisY;
+  }
+};
+
+var setOfferPrice = function () {
+  var type = document.querySelector('#type').selectedOptions[0].value;
+  var price = document.querySelector('#price');
+  switch (type) {
+    case 'flat':
+      price.min = '1000';
+      price.placeholder = '1000';
+    break;
+    case 'bungalo':
+      price.min = '0';
+      price.placeholder = '0';
+    break;
+    case 'house':
+      price.min = '5000';
+      price.placeholder = '5000';
+    break;
+    case 'palace':
+      price.min = '10000';
+      price.placeholder = '10000';
+    break;
+    default:
+      price.min = '1000';
+      price.placeholder = '1000';
+  }
+};
+
+var checkGuestsNumber = function () {
+  var guests = +document.querySelector('#capacity').value;
+  var rooms = +document.querySelector('#room_number').value;
+  if (rooms === 100) {
+    document.querySelector('#capacity').setCustomValidity('not for guests');
+    document.querySelector('#capacity').style.backgroundColor = 'pink';
+  } else if (guests > rooms) {
+    document.querySelector('#capacity').setCustomValidity('too much guests');
+    document.querySelector('#capacity').style.backgroundColor = 'pink';
+  } else {
+    document.querySelector('#capacity').setCustomValidity('');
+    document.querySelector('#capacity').style.backgroundColor = '';
+  }
+};
+
+document.querySelector('.map__pin--main').addEventListener('mousedown', function (evt) {
+  enablePage();
+  getPinCoordinates();
+});
+
+document.querySelector('.map__pin--main').addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYCODE_ENTER) {
+    enablePage();
+    getPinCoordinates();
+  }
+});
+
+document.querySelector('#timein').addEventListener('change', function (evt) {
+  document.querySelector('#timeout').value = evt.target.value;
+});
+
+document.querySelector('#timeout').addEventListener('change', function (evt) {
+  document.querySelector('#timein').value = evt.target.value;
+});
+
+document.querySelector('#room_number').addEventListener('change', checkGuestsNumber);
+document.querySelector('#capacity').addEventListener('change', checkGuestsNumber);
+document.querySelector('#type').addEventListener('change', setOfferPrice);
+
+disablePage();
