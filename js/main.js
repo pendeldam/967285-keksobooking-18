@@ -3,13 +3,13 @@ var map = document.querySelector('.map');
 var adForm = document.querySelector('.ad-form');
 var mapFilters = map.querySelector('.map__filters');
 var mapPinMain = map.querySelector('.map__pin--main');
-/*
 var mapPins = map.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var offers = [];
 var times = document.querySelector('#timein').options;
 var types = document.querySelector('#housing-type').children;
+var titles = ['шикарный пентхаус с видом на море', 'настоящая дыра в трущобах', 'уютная квартирка для двоих'];
 var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photosList = [
   "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
@@ -23,15 +23,20 @@ var getRandomNumber = function (min, max) {
 
 var getRandomArray = function (array) {
   var result = [];
-  var index = getRandomNumber(0, array.length);
-  for (var i = index; i < array.length; i++) {
-    result.push(array[i]);
-  }
+  array.forEach(function (item) {
+    if (getRandomNumber(0, 2)) {
+      result.push(item)
+    }
+  });
   return result;
 };
 
+var getID = function (number) {
+  return number;
+};
+
 var getAvatar = function (number) {
-  return 'img/avatars/user0' + number + '.png';
+  return 'img/avatars/user0' + (number + 1) + '.png';
 };
 
 var getRandomOffer = function (number) {
@@ -40,7 +45,8 @@ var getRandomOffer = function (number) {
       avatar: getAvatar(number)
     },
     offer: {
-      title: 'offer title',
+      id: getID(number),
+      title: titles[getRandomNumber(0, titles.length)],
       price: getRandomNumber(1, 10000),
       type: types[getRandomNumber(1, types.length)].textContent,
       rooms: getRandomNumber(1, 4),
@@ -65,6 +71,7 @@ var renderOffer = function (pin) {
   offerElement.style.top = pin.location.y - mapPinTemplate.firstElementChild.height + 'px';
   offerElement.firstElementChild.src = pin.author.avatar;
   offerElement.firstElementChild.alt = pin.offer.title;
+  offerElement.firstElementChild.id = pin.offer.id;
   return offerElement;
 };
 
@@ -92,6 +99,7 @@ var renderCard = function (random) {
     featuresBlock.appendChild(element);
   });
 
+  cardElement.id = random.offer.id;
   cardElement.querySelector('.popup__title').textContent = random.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = random.offer.address;
   cardElement.querySelector('.popup__text--price').innerHTML = random.offer.price + ' &#x20bd;<span>/ночь</span>';
@@ -106,7 +114,7 @@ var renderCard = function (random) {
 
 var renderPins = function (number) {
   var fragment = document.createDocumentFragment();
-  for (var i = 1; i <= number; i++) {
+  for (var i = 0; i < number; i++) {
     var randomOffer = getRandomOffer(i);
     randomOffer.offer.address = randomOffer.location.x + ', ' + randomOffer.location.y;
     offers.push(randomOffer);
@@ -114,7 +122,7 @@ var renderPins = function (number) {
   }
   mapPins.appendChild(fragment);
 };
-*/
+
 var disableForm = function (form, input) {
   form.querySelectorAll(input).forEach(function (item) {
     item.setAttribute('disabled', true);
@@ -195,6 +203,9 @@ var checkGuestsNumber = function () {
   }
 };
 
+disablePage();
+renderPins(8);
+
 document.querySelector('.map__pin--main').addEventListener('mousedown', function () {
   enablePage();
   getPinCoordinates();
@@ -219,4 +230,12 @@ document.querySelector('#room_number').addEventListener('change', checkGuestsNum
 document.querySelector('#capacity').addEventListener('change', checkGuestsNumber);
 document.querySelector('#type').addEventListener('change', setOfferPrice);
 
-disablePage();
+document.querySelectorAll('.map__pin').forEach(function (pin) {
+  pin.addEventListener('click', function (evt) {
+    var id = evt.target.id;
+    renderCard(offers[id]);
+    document.querySelector('.popup__close').addEventListener('click', function () {
+      document.querySelector('.map__card').remove();
+    });
+  });
+});
