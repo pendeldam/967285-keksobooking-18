@@ -8,6 +8,7 @@
   var mapPins = map.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var address = adForm.querySelector('#address');
   var times = document.querySelector('#timein').options;
   var types = document.querySelector('#housing-type').children;
   var titles = ['шикарный пентхаус с видом на море', 'настоящая дыра в трущобах', 'уютная квартирка для двоих'];
@@ -89,6 +90,25 @@
       }
       mapPins.appendChild(fragment);
     },
+    checkPinCoords: function (startX, startY, shiftX, shiftY) {
+      if (!map.classList.contains('map--faded')) {
+        address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
+      }
+      if (startX < map.offsetLeft) {
+        mapPinMain.style.left = map.offsetLeft - mapPinMain.offsetWidth * 3.5 + 'px';
+      } else if (startX > map.offsetWidth) {
+        mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth + 'px';
+      } else {
+        mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
+      }
+      if (startY < 130) {
+        mapPinMain.style.top = 130 + 'px';
+      } else if (startY > 630) {
+        mapPinMain.style.top = 630 + 'px';
+      } else {
+        mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
+      }
+    },
     enablePage: function () {
       if (pageIsActive) {
         return
@@ -99,7 +119,7 @@
       window.form.enableForm(adForm, 'fieldset');
       window.form.enableForm(mapFilters, 'select');
       window.map.renderPins(8);
-      window.form.getPinCoordinates();
+      window.map.checkPinCoords();
       window.form.checkOfferPrice();
     },
     disablePage: function () {
@@ -113,11 +133,42 @@
     }
   };
 
-  mapPinMain.addEventListener('mousedown', window.map.enablePage);
+  mapPinMain.addEventListener('click', window.map.enablePage);
   mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEYCODE_ENTER) {
     window.map.enablePage();
   }
+  });
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (evt) {
+      evt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - evt.clientX,
+        y: startCoords.y - evt.clientY
+      };
+
+      startCoords.x = evt.clientX;
+      startCoords.y = evt.clientY;
+      address.value = startCoords.x + ', ' + startCoords.y;
+      window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
+    };
+
+    var onMouseUp = function (evt) {
+      evt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      //window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
   window.map.disablePage();
 })();
