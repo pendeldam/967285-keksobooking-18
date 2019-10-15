@@ -18,6 +18,7 @@
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
   ];
+  address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
   window.map = {
     offers: [],
@@ -91,11 +92,8 @@
       mapPins.appendChild(fragment);
     },
     checkPinCoords: function (startX, startY, shiftX, shiftY) {
-      if (!map.classList.contains('map--faded')) {
-        address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
-      }
       if (startX < map.offsetLeft) {
-        mapPinMain.style.left = map.offsetLeft - mapPinMain.offsetWidth * 3.5 + 'px';
+        mapPinMain.style.left = map.offsetLeft - map.offsetLeft + 'px';
       } else if (startX > map.offsetWidth) {
         mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth + 'px';
       } else {
@@ -119,8 +117,8 @@
       window.form.enableForm(adForm, 'fieldset');
       window.form.enableForm(mapFilters, 'select');
       window.map.renderPins(8);
-      window.map.checkPinCoords();
       window.form.checkOfferPrice();
+      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
     },
     disablePage: function () {
       map.classList.add('map--faded');
@@ -157,7 +155,7 @@
 
       startCoords.x = evt.clientX;
       startCoords.y = evt.clientY;
-      address.value = startCoords.x + ', ' + startCoords.y;
+      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
       window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
     };
 
@@ -165,7 +163,7 @@
       evt.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      //window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
+      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
