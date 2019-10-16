@@ -8,6 +8,7 @@
   var mapPins = map.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var address = adForm.querySelector('#address');
   var times = document.querySelector('#timein').options;
   var types = document.querySelector('#housing-type').children;
   var titles = ['шикарный пентхаус с видом на море', 'настоящая дыра в трущобах', 'уютная квартирка для двоих'];
@@ -17,6 +18,7 @@
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
   ];
+  address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
   window.map = {
     offers: [],
@@ -89,6 +91,22 @@
       }
       mapPins.appendChild(fragment);
     },
+    checkPinCoords: function (startX, startY, shiftX, shiftY) {
+      if (startX < map.offsetLeft) {
+        mapPinMain.style.left = map.offsetLeft - map.offsetLeft - mapPinMain.offsetWidth / 2 + 'px';
+      } else if (startX > map.offsetWidth) {
+        mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth / 2 + 'px';
+      } else {
+        mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
+      }
+      if (startY < 130) {
+        mapPinMain.style.top = 130 - mapPinMain.offsetHeight + 'px';
+      } else if (startY > 630) {
+        mapPinMain.style.top = 630 - mapPinMain.offsetHeight + 'px';
+      } else {
+        mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
+      }
+    },
     enablePage: function () {
       if (pageIsActive) {
         return
@@ -99,8 +117,8 @@
       window.form.enableForm(adForm, 'fieldset');
       window.form.enableForm(mapFilters, 'select');
       window.map.renderPins(8);
-      window.form.getPinCoordinates();
       window.form.checkOfferPrice();
+      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
     },
     disablePage: function () {
       map.classList.add('map--faded');
@@ -113,11 +131,42 @@
     }
   };
 
-  mapPinMain.addEventListener('mousedown', window.map.enablePage);
+  mapPinMain.addEventListener('click', window.map.enablePage);
   mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEYCODE_ENTER) {
     window.map.enablePage();
   }
+  });
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (evt) {
+      evt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - evt.clientX,
+        y: startCoords.y - evt.clientY
+      };
+
+      startCoords.x = evt.clientX;
+      startCoords.y = evt.clientY;
+      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+      window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
+    };
+
+    var onMouseUp = function (evt) {
+      evt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
   window.map.disablePage();
 })();
