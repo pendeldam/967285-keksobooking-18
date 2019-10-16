@@ -93,16 +93,16 @@
     },
     checkPinCoords: function (startX, startY, shiftX, shiftY) {
       if (startX < map.offsetLeft) {
-        mapPinMain.style.left = map.offsetLeft - map.offsetLeft + 'px';
+        mapPinMain.style.left = map.offsetLeft - map.offsetLeft - mapPinMain.offsetWidth / 2 + 'px';
       } else if (startX > map.offsetWidth) {
-        mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth + 'px';
+        mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth / 2 + 'px';
       } else {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
       }
       if (startY < 130) {
-        mapPinMain.style.top = 130 + 'px';
+        mapPinMain.style.top = 130 - mapPinMain.offsetHeight + 'px';
       } else if (startY > 630) {
-        mapPinMain.style.top = 630 + 'px';
+        mapPinMain.style.top = 630 - mapPinMain.offsetHeight + 'px';
       } else {
         mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
       }
@@ -155,7 +155,7 @@
 
       startCoords.x = evt.clientX;
       startCoords.y = evt.clientY;
-      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
+      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
       window.map.checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
     };
 
@@ -163,7 +163,7 @@
       evt.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
+      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
