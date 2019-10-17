@@ -94,15 +94,15 @@
     checkPinCoords: function (startX, startY, shiftX, shiftY) {
       if (startX < map.offsetLeft) {
         mapPinMain.style.left = map.offsetLeft - map.offsetLeft - mapPinMain.offsetWidth / 2 + 'px';
-      } else if (startX > map.offsetWidth) {
+      } else if (startX > map.offsetWidth + map.offsetLeft) {
         mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth / 2 + 'px';
       } else {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
       }
-      if (startY < 130) {
+      if (startY < 130 - mapPinMain.offsetHeight) {
         mapPinMain.style.top = 130 - mapPinMain.offsetHeight + 'px';
-      } else if (startY > 630) {
-        mapPinMain.style.top = 630 - mapPinMain.offsetHeight + 'px';
+      } else if (startY > 630 + mapPinMain.offsetHeight) {
+        mapPinMain.style.top = 630 + 'px';
       } else {
         mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
       }
@@ -118,7 +118,7 @@
       window.form.enableForm(mapFilters, 'select');
       window.map.renderPins(8);
       window.form.checkOfferPrice();
-      address.value = Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight) + ', ' + Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
+      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
     },
     disablePage: function () {
       map.classList.add('map--faded');
