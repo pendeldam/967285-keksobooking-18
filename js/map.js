@@ -43,7 +43,7 @@
       mapPins.appendChild(fragment);
     },
     loadPinsError: function (msg) {
-      var errorElement = errorTemplate.cloneNode(true);
+      var errorElement = formErrorTemplate.cloneNode(true);
       errorElement.firstElementChild.textContent = 'Ошибка загрузки объявления ' + '(код: ' + msg + ')';
       document.body.insertAdjacentElement('afterbegin', errorElement);
     },
