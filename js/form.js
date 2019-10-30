@@ -1,8 +1,8 @@
 'use strict';
 (function () {
   var adForm = document.querySelector('.ad-form');
-  var title = document.querySelector('#title');
-  var description = document.querySelector('#description');
+  var title = adForm.querySelector('#title');
+  var description = adForm.querySelector('#description');
   var timein = adForm.querySelector('#timein');
   var timeout = adForm.querySelector('#timeout');
   var capacity = adForm.querySelector('#capacity');
@@ -34,7 +34,7 @@
       });
     },
     checkOfferPrice: function () {
-      var type = document.querySelector('#type').selectedOptions[0].value;
+      var type = document.querySelector('#type').value;
       var price = document.querySelector('#price');
       switch (type) {
         case 'flat':
@@ -69,7 +69,7 @@
         capacity.style.borderColor = 'red';
       } else if (guests > rooms) {
         capacity.setCustomValidity('too much guests');
-        document.querySelector('#capacity').style.borderColor = 'red';
+        capacity.style.borderColor = 'red';
       } else {
         capacity.setCustomValidity('');
         capacity.style.borderColor = '';
@@ -77,9 +77,6 @@
     }
   };
 
-  roomNumber.addEventListener('change', window.form.checkGuestsNumber);
-  capacity.addEventListener('change', window.form.checkGuestsNumber);
-  type.addEventListener('change', window.form.checkOfferPrice);
   timein.addEventListener('change', function (evt) {
     timeout.value = evt.target.value;
   });

@@ -10,37 +10,24 @@
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapPinMainStartX = mapPinMain.offsetLeft;
   var mapPinMainStartY = mapPinMain.offsetTop;
-  var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var formSuccessTemplate = document.querySelector('#success').content.querySelector('.success');
   var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var capacity = adForm.querySelector('#capacity');
+  var roomNumber = adForm.querySelector('#room_number');
+  var type = adForm.querySelector('#type');
   var address = adForm.querySelector('#address');
   address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
+  var filters = document.querySelector('.map__filters');
+  var housingType = filters.querySelector('#housing-type');
+
   window.map = {
     offers: [],
-    renderPin: function (pin) {
-      var offerElement = mapPinTemplate.cloneNode(true);
-      offerElement.style.left = pin.location.x - mapPinTemplate.firstElementChild.width / 2 + 'px';
-      offerElement.style.top = pin.location.y - mapPinTemplate.firstElementChild.height + 'px';
-      offerElement.firstElementChild.src = pin.author.avatar;
-      offerElement.firstElementChild.alt = pin.offer.title;
-      offerElement.firstElementChild.dataset.id = window.map.offers.indexOf(pin);
-      offerElement.dataset.id = window.map.offers.indexOf(pin);
-      offerElement.addEventListener('mousedown', window.card.openCardHandler);
-      offerElement.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === KEYCODE_ENTER) {
-            window.card.openCardHandler(evt);
-          }
-        });
-      return offerElement;
-    },
     loadPinsSuccess: function (data) {
-      var fragment = document.createDocumentFragment();
       data.forEach(function (item) {
         window.map.offers.push(item);
-        fragment.appendChild(window.map.renderPin(item));
       });
-      mapPins.appendChild(fragment);
+      window.render.pin(window.map.offers);
     },
     loadPinsError: function (msg) {
       var errorElement = formErrorTemplate.cloneNode(true);
@@ -119,6 +106,11 @@
       window.backend.load(window.map.loadPinsSuccess, window.map.loadPinsError);
       window.form.checkOfferPrice();
       address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+
+      roomNumber.addEventListener('change', window.form.checkGuestsNumber);
+      capacity.addEventListener('change', window.form.checkGuestsNumber);
+      type.addEventListener('change', window.form.checkOfferPrice);
+      housingType.addEventListener('change', window.filter.filterType);
 
       adForm.addEventListener('submit', function (evt) {
         evt.preventDefault();
