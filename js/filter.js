@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  window.filter = {
-    filterType: function(evt) {
+  window.filtering = {
+    check: function(filters) {
       document.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (pin) {
         pin.remove();
       });
@@ -10,10 +10,12 @@
         window.card.closeCardHandler();
       }
 
-      var filtered = window.map.offers.slice().filter(function (item) {
-        return item.offer.type === evt.target.value;
+      var filtered = window.map.offers.filter(function (item) {
+        for (var filter in filters) {
+            return item.offer[filter] === filters[filter];
+        }
       });
-
+      console.log(filtered);
       window.render.pin(filtered);
     }
   };

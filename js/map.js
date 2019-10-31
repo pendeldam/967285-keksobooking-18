@@ -18,11 +18,9 @@
   var address = adForm.querySelector('#address');
   address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
-  var filters = document.querySelector('.map__filters');
-  var housingType = filters.querySelector('#housing-type');
-
   window.map = {
     offers: [],
+    filters: {},
     loadPinsSuccess: function (data) {
       data.forEach(function (item) {
         window.map.offers.push(item);
@@ -110,7 +108,42 @@
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
       capacity.addEventListener('change', window.form.checkGuestsNumber);
       type.addEventListener('change', window.form.checkOfferPrice);
-      housingType.addEventListener('change', window.filter.filterType);
+
+      mapFilters.addEventListener('change', function (evt) {
+        var filter = evt.target.name;
+
+        switch (filter) {
+          case 'housing-type':
+            window.map.filters.type = evt.target.value;
+            if (evt.target.value === 'any') {
+              delete window.map.filters.type;
+            }
+            window.filtering.check(window.map.filters);
+            break;
+          case 'housing-price':
+            window.map.filters.price = evt.target.value;
+            if (evt.target.value === 'any') {
+              delete window.map.filters.price;
+            }
+            //window.filtering.check(window.map.filters);
+            break;
+          case 'housing-rooms':
+            window.map.filters.rooms = +evt.target.value;
+            if (evt.target.value === 'any') {
+              delete window.map.filters.rooms;
+            }
+            window.filtering.check(window.map.filters);
+            break;
+          case 'housing-guests':
+            window.map.filters.guests = +evt.target.value;
+            if (evt.target.value === 'any') {
+              delete window.map.filters.guests;
+            }
+            window.filtering.check(window.map.filters);
+            break;
+        }
+        console.log(window.map.filters);
+      });
 
       adForm.addEventListener('submit', function (evt) {
         evt.preventDefault();
