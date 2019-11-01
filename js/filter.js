@@ -1,79 +1,36 @@
 'use strict';
 (function () {
-  window.filtering = {
-    add: function (evt) {
-      var filter = evt.target.name;
+  var activeFilters = {};
+  var mappingFilters = {
+    'housing-type': 'type',
+    'housing-price': 'price',
+    'housing-rooms': 'rooms',
+    'housing-guests': 'guests',
+    'wifi': 'wifi',
+    'dishwasher': 'dishwasher',
+    'parking': 'parking',
+    'washer': 'washer',
+    'elevator': 'elevator',
+    'conditioner': 'conditioner'
+  };
 
-        switch (filter) {
-          case 'housing-type':
-            window.map.filters.type = evt.target.value;
-            if (evt.target.value === 'any') {
-              delete window.map.filters.type;
-            }
-            window.filtering.check(window.map.filters);
-            break;
-          case 'housing-price':
-            window.map.filters.price = evt.target.value;
-            if (evt.target.value === 'any') {
-              delete window.map.filters.price;
-            }
-            //window.filtering.check(window.map.filters);
-            break;
-          case 'housing-rooms':
-            window.map.filters.rooms = +evt.target.value;
-            if (evt.target.value === 'any') {
-              delete window.map.filters.rooms;
-            }
-            window.filtering.check(window.map.filters);
-            break;
-          case 'housing-guests':
-            window.map.filters.guests = +evt.target.value;
-            if (evt.target.value === 'any') {
-              delete window.map.filters.guests;
-            }
-            window.filtering.check(window.map.filters);
-            break;
-          case 'features':
-            switch (evt.target.value) {
-              case 'wifi':
-                window.map.filters.features.wifi = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.wifi;
-                }
-                break;
-              case 'dishwasher':
-                window.map.filters.features.dishwasher = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.dishwasher;
-                }
-                break;
-              case 'parking':
-                window.map.filters.features.parking = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.parking;
-                }
-                break;
-              case 'washer':
-                window.map.filters.features.washer = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.washer;
-                }
-                break;
-              case 'elevator':
-                window.map.filters.features.elevator = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.elevator;
-                }
-                break;
-              case 'conditioner':
-                window.map.filters.features.conditioner = evt.target.value;
-                if (!evt.target.checked) {
-                  delete window.map.filters.features.conditioner;
-                }
-                break;
-            }
+  window.filtering = {
+    add: function(evt) {
+      if (event.target.name === 'features') {
+        activeFilters[mappingFilters[evt.target.value]] = evt.target.value
+        if (!evt.target.checked) {
+          delete activeFilters[mappingFilters[evt.target.value]];
         }
-        console.log('filters:', window.map.filters);
+      } else {
+          activeFilters[mappingFilters[evt.target.name]] = evt.target.value;
+      }
+
+      if (evt.target.value === 'any') {
+        delete activeFilters[mappingFilters[evt.target.name]];
+      }
+
+      window.filtering.check(activeFilters);
+      console.log(activeFilters);
     },
     check: function(filters) {
       document.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (pin) {
@@ -91,27 +48,23 @@
             item.rank += 5;
             console.log(value ,item.offer[value], filters[value], item.rank);
           }
-          if (item.offer[value] === filters[value] && value == 'rooms') {
+          if (item.offer[value] == filters[value] && value == 'rooms') {
             item.rank += 3;
             console.log(value ,item.offer[value], filters[value], item.rank);
           }
-          if (item.offer[value] === filters[value] && value == 'guests') {
+          if (item.offer[value] == filters[value] && value == 'guests') {
             item.rank += 2;
-            console.log(value ,item.offer[value], filters[value], item.rank);
-          }
-          if (item.offer.features[value] === filters[value] && value == 'wifi') {
-            item.rank += 1;
             console.log(value ,item.offer[value], filters[value], item.rank);
           }
         }
       });
-
+      
       var sorted = window.map.offers.sort(function (left, right) {
         return right.rank - left.rank;
       });
 
       var filtered = sorted.filter(function (item) {
-        if (!window.map.offers[0].rank) {
+        if (window.map.offers[0].rank === 0) {
           return false;
         }
         return item.rank === window.map.offers[0].rank;
