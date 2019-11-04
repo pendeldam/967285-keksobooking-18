@@ -18,18 +18,27 @@
     }
   };
 
+  var prepItem = function (item) {
+    var result = {};
+
+    result.type = item.offer.type;
+    result.price = convertPrice(item.offer.price);
+    result.rooms = item.offer.rooms;
+    result.guests = item.offer.guests;
+
+    if (item.offer.features.length > 0) {
+      item.offer.features.forEach(function (feature) {
+        result[feature] = true;
+      });
+    }
+    console.log(result);
+    return result;
+  };
+
   var check = function (filters, item) {
     for (var value in filters) {
-      if (value === 'price') {
-        console.log(value, filters[value], convertPrice(item.offer[value]));
-        if (filters[value] !== convertPrice(item.offer[value])) {
-          return false;
-        }
-        return true;
-      }
-
-      console.log(value, filters[value], item.offer[value]);
-      if (filters[value] !== item.offer[value]) {
+      console.log(value, filters[value], item[value], filters[value] === item[value]);
+      if (filters[value] !== item[value]) {
         return false;
       }
     }
@@ -46,8 +55,8 @@
     }
 
     var filtered = offers.filter(function (item) {
-      console.log('check:', check(filters, item));
-      return check(filters, item);
+      console.log('check:', check(filters, prepItem(item)));
+      return check(filters, prepItem(item));
     });
     console.log(filtered);
     window.render.pin(filtered);
@@ -56,7 +65,7 @@
   window.filtering = {
     add: function(evt) {
       if (event.target.name === 'features') {
-        filters[evt.target.value] = evt.target.value;
+        filters[evt.target.value] = true;
         if (!evt.target.checked) {
           delete filters[evt.target.value];
         }
@@ -71,7 +80,7 @@
       }
 
       filter(window.map.offers);
-      console.log(filters);
+      console.log('filters:', filters);
     }
   };
 })();

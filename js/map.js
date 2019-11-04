@@ -20,7 +20,6 @@
 
   window.map = {
     offers: [],
-    filters: {},
     loadPinsSuccess: function (data) {
       data.forEach(function (item) {
         window.map.offers.push(item);
