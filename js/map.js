@@ -18,9 +18,6 @@
   var address = adForm.querySelector('#address');
   address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
-  var filters = document.querySelector('.map__filters');
-  var housingType = filters.querySelector('#housing-type');
-
   window.map = {
     offers: [],
     loadPinsSuccess: function (data) {
@@ -110,7 +107,7 @@
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
       capacity.addEventListener('change', window.form.checkGuestsNumber);
       type.addEventListener('change', window.form.checkOfferPrice);
-      housingType.addEventListener('change', window.filter.filterType);
+      mapFilters.addEventListener('change', window.filtering.add);
 
       adForm.addEventListener('submit', function (evt) {
         evt.preventDefault();
