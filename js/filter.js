@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var timeout = null;
   var filters = {};
   var mapping = {
     'housing-type': 'type',
@@ -31,13 +32,11 @@
         result[feature] = true;
       });
     }
-    console.log(result);
     return result;
   };
 
   var check = function (filters, item) {
     for (var value in filters) {
-      console.log(value, filters[value], item[value], filters[value] === item[value]);
       if (filters[value] !== item[value]) {
         return false;
       }
@@ -55,11 +54,15 @@
     }
 
     var filtered = offers.filter(function (item) {
-      console.log('check:', check(filters, prepItem(item)));
       return check(filters, prepItem(item));
     });
-    console.log(filtered);
-    window.render.pin(filtered);
+
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+      timeout = setTimeout(function () {
+        window.render.pin(filtered);
+      }, 500);
   };
 
   window.filtering = {
@@ -80,7 +83,6 @@
       }
 
       filter(window.map.offers);
-      console.log('filters:', filters);
     }
   };
 })();
