@@ -16,7 +16,6 @@
   var roomNumber = adForm.querySelector('#room_number');
   var type = adForm.querySelector('#type');
   var address = adForm.querySelector('#address');
-  address.value = mapPinMain.offsetTop + ', ' + mapPinMain.offsetLeft;
 
   window.map = {
     offers: [],
@@ -25,6 +24,7 @@
         window.map.offers.push(item);
       });
       window.render.pin(window.map.offers);
+      window.form.enableForm(mapFilters, 'select');
     },
     loadPinsError: function (msg) {
       var errorElement = formErrorTemplate.cloneNode(true);
@@ -58,7 +58,7 @@
       if (document.querySelector('.map__card')) {
         window.card.closeCardHandler();
       }
-      address.value = mapPinMainStartX + ', ' + mapPinMainStartY;
+      address.value = Math.ceil(mapPinMainStartX + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMainStartY + mapPinMain.offsetHeight / 2);
       mapPinMain.style.left = mapPinMainStartX + 'px';
       mapPinMain.style.top = mapPinMainStartY + 'px';
     },
@@ -99,7 +99,7 @@
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
       window.form.enableForm(adForm, 'fieldset');
-      window.form.enableForm(mapFilters, 'select');
+      //window.form.enableForm(mapFilters, 'select');
       window.backend.load(window.map.loadPinsSuccess, window.map.loadPinsError);
       window.form.checkOfferPrice();
       address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);

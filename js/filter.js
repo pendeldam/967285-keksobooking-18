@@ -50,7 +50,8 @@
     });
 
     if (document.querySelector('.map__card')) {
-      window.card.closeCardHandler();
+      document.querySelector('.map__card').remove();
+      document.removeEventListener('keydown', window.card.onCloseCard);
     }
 
     var filtered = offers.filter(function (item) {
