@@ -2,9 +2,9 @@
 (function () {
   var KEYCODE_ENTER = 13;
   var KEYCODE_ESC = 27;
-  var pageIsActive = false;
   var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
+  var adFormReset = adForm.querySelector('.ad-form__reset');
   var mapFilters = map.querySelector('.map__filters');
   var mapPins = map.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
@@ -92,16 +92,10 @@
       });
     },
     enablePage: function () {
-      if (pageIsActive) {
-        return
-      }
-      pageIsActive = true;
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
       window.form.enableForm(adForm, 'fieldset');
-      //window.form.enableForm(mapFilters, 'select');
       window.backend.load(window.map.loadPinsSuccess, window.map.loadPinsError);
-      window.form.checkOfferPrice();
       address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
 
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
@@ -122,6 +116,13 @@
     window.map.enablePage();
   }
   });
+
+  adFormReset.addEventListener('click', window.map.disablePage);
+  adFormReset.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === KEYCODE_ENTER) {
+      window.map.disablePage();
+    }
+    });
 
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();

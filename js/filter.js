@@ -44,7 +44,7 @@
     return true;
   };
 
-  var filter = function(offers) {
+  var filter = function (offers) {
     document.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (pin) {
       pin.remove();
     });
@@ -67,7 +67,7 @@
   };
 
   window.filtering = {
-    add: function(evt) {
+    add: function (evt) {
       if (event.target.name === 'features') {
         filters[evt.target.value] = true;
         if (!evt.target.checked) {

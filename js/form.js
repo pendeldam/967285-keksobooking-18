@@ -14,7 +14,7 @@
     enableForm: function (form, input) {
       form.querySelectorAll(input).forEach(function (item) {
         item.removeAttribute('disabled');
-      })
+      });
     },
     disableForm: function (form, input) {
       title.value = '';
@@ -33,10 +33,8 @@
         timein.value = evt.target.value;
       });
     },
-    checkOfferPrice: function () {
-      var type = document.querySelector('#type').value;
-      var price = document.querySelector('#price');
-      switch (type) {
+    checkOfferPrice: function (evt) {
+      switch (evt.target.value) {
         case 'flat':
           price.min = '1000';
           price.placeholder = '1000';
@@ -53,9 +51,6 @@
           price.min = '10000';
           price.placeholder = '10000';
         break;
-        default:
-          price.min = '1000';
-          price.placeholder = '1000';
       }
     },
     checkGuestsNumber: function () {

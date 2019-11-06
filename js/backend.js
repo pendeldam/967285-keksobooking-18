@@ -1,3 +1,4 @@
+'use strict';
 (function () {
   window.backend = {
     load: function (onLoad, onError) {
@@ -6,7 +7,7 @@
       xhr.responseType = 'json';
       xhr.addEventListener('load', function () {
         if (xhr.status === 200) {
-          onLoad(xhr.response)
+          onLoad(xhr.response);
         } else {
           onError(xhr.status);
         }

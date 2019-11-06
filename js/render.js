@@ -34,21 +34,23 @@
     result.checkout = item.offer.checkout;
     result.features = [];
     result.photos = [];
-
-    if (item.offer.features.length > 0) {
-      item.offer.features.forEach(function (feature) {
-        result.features.push(feature)
-      })
+    if (item.offer.features) {
+      if (item.offer.features.length > 0) {
+        item.offer.features.forEach(function (feature) {
+          result.features.push(feature)
+        });
+      }
     } else {
-      result.features = 0;
+        result.features = 0;
     }
-
-    if (item.offer.photos.length > 0) {
-      item.offer.photos.forEach(function (photo) {
-        result.photos.push(photo)
-      })
+    if (item.offer.photos) {
+      if (item.offer.photos.length > 0) {
+        item.offer.photos.forEach(function (photo) {
+          result.photos.push(photo)
+        });
+      }
     } else {
-      result.photos = 0;
+        result.photos = 0;
     }
     return result;
   };
