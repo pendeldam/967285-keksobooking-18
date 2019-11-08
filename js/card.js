@@ -19,7 +19,7 @@
       }
       var id = evt.target.dataset.id;
       pins.querySelector('.map__pin[data-id="' + id + '"]').classList.add('map__pin--active');
-      window.render.card(window.map.offers[id], id);
+      window.rendering.renderCard(window.map.offers[id], id);
       document.addEventListener('keydown', window.card.onCloseCard);
       document.querySelector('.popup__close').addEventListener('click', window.card.closeCardHandler);
     },

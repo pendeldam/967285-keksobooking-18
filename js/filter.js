@@ -62,7 +62,7 @@
       clearTimeout(timeout);
     }
       timeout = setTimeout(function () {
-        window.render.pin(filtered);
+        window.rendering.renderAds(filtered);
       }, 500);
   };
 

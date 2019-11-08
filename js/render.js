@@ -20,6 +20,20 @@
     'photos': '.popup__photos'
   };
 
+  var getItemPropArray = function (array) {
+    if (array) {
+      if (array.length > 0) {
+        var result = [];
+        array.forEach(function (item) {
+          result.push(item);
+        });
+      }
+    } else {
+        result = 0;
+    }
+    return result;
+  };
+
   var prepItem = function (item) {
     var result = {};
     result.title = item.offer.title;
@@ -32,26 +46,8 @@
     result.guests = item.offer.guests.toString();
     result.checkin = item.offer.checkin;
     result.checkout = item.offer.checkout;
-    result.features = [];
-    result.photos = [];
-    if (item.offer.features) {
-      if (item.offer.features.length > 0) {
-        item.offer.features.forEach(function (feature) {
-          result.features.push(feature)
-        });
-      }
-    } else {
-        result.features = 0;
-    }
-    if (item.offer.photos) {
-      if (item.offer.photos.length > 0) {
-        item.offer.photos.forEach(function (photo) {
-          result.photos.push(photo)
-        });
-      }
-    } else {
-        result.photos = 0;
-    }
+    result.features = getItemPropArray(item.offer.features);
+    result.photos = getItemPropArray(item.offer.photos);
     return result;
   };
 
@@ -125,8 +121,8 @@
     return pin;
   };
 
-  window.render = {
-    pin: function (data) {
+  window.rendering = {
+    renderAds: function (data) {
       var fragment = document.createDocumentFragment();
       var number = data.length > 5 ? 5 : data.length;
 
@@ -135,7 +131,7 @@
       }
       mapPins.appendChild(fragment);
     },
-    card: function (ad, id) {
+    renderCard: function (ad, id) {
       var fragment = document.createDocumentFragment();
       fragment.appendChild(checkProps(mapping, prepItem(ad), id));
       map.insertBefore(fragment, mapPins.nextSibling);
