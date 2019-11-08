@@ -40,7 +40,7 @@
       data.forEach(function (item) {
         window.map.offers.push(item);
       });
-      window.rendering.renderAds(window.map.offers);
+      window.rendering.renderPins(window.map.offers);
       window.form.enableForm(mapFilters, 'select');
     },
     loadPinsError: function (msg) {

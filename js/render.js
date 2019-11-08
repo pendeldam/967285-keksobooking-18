@@ -122,7 +122,7 @@
   };
 
   window.rendering = {
-    renderAds: function (data) {
+    renderPins: function (data) {
       var fragment = document.createDocumentFragment();
       var number = data.length > 5 ? 5 : data.length;
 

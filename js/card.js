@@ -10,7 +10,6 @@
         window.card.closeCardHandler();
       }
     },
-
     openCardHandler: function (evt) {
       if (document.querySelector('.map__card')) {
         var cardID = document.querySelector('.map__card').dataset.id;
@@ -23,7 +22,6 @@
       document.addEventListener('keydown', window.card.onCloseCard);
       document.querySelector('.popup__close').addEventListener('click', window.card.closeCardHandler);
     },
-
     closeCardHandler: function () {
       var cardID = document.querySelector('.map__card').dataset.id;
       pins.querySelector('.map__pin[data-id="' + cardID + '"]').classList.remove('map__pin--active');

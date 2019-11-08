@@ -29,6 +29,7 @@
       }
 
       document.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (pin) {
+        pin.removeEventListener('mousedown', window.card.openCardHandler);
         pin.remove();
       });
 
@@ -48,7 +49,7 @@
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
       capacity.addEventListener('change', window.form.checkGuestsNumber);
       type.addEventListener('change', window.form.checkOfferPrice);
-      mapFilters.addEventListener('change', window.filtering.add);
+      mapFilters.addEventListener('change', window.filtering.addFilter);
 
       adForm.addEventListener('submit', function (evt) {
         evt.preventDefault();

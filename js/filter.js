@@ -35,7 +35,7 @@
     return result;
   };
 
-  var check = function (filters, item) {
+  var checkFilters = function (filters, item) {
     for (var value in filters) {
       if (filters[value] !== item[value]) {
         return false;
@@ -44,7 +44,7 @@
     return true;
   };
 
-  var filter = function (offers) {
+  var filterPins = function (offers) {
     document.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (pin) {
       pin.remove();
     });
@@ -55,19 +55,19 @@
     }
 
     var filtered = offers.filter(function (item) {
-      return check(filters, prepItem(item));
+      return checkFilters(filters, prepItem(item));
     });
 
     if (timeout) {
       clearTimeout(timeout);
     }
       timeout = setTimeout(function () {
-        window.rendering.renderAds(filtered);
+        window.rendering.renderPins(filtered);
       }, 500);
   };
 
   window.filtering = {
-    add: function (evt) {
+    addFilter: function (evt) {
       if (event.target.name === 'features') {
         filters[evt.target.value] = true;
         if (!evt.target.checked) {
@@ -83,7 +83,7 @@
         delete filters[mapping[evt.target.name]];
       }
 
-      filter(window.map.offers);
+      filterPins(window.map.offers);
     }
   };
 })();

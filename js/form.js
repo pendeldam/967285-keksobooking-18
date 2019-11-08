@@ -3,6 +3,7 @@
   var adForm = document.querySelector('.ad-form');
   var title = adForm.querySelector('#title');
   var description = adForm.querySelector('#description');
+  var time = adForm.querySelector('.ad-form__element--time');
   var timein = adForm.querySelector('#timein');
   var timeout = adForm.querySelector('#timeout');
   var capacity = adForm.querySelector('#capacity');
@@ -72,10 +73,14 @@
     }
   };
 
-  timein.addEventListener('change', function (evt) {
-    timeout.value = evt.target.value;
-  });
-  timeout.addEventListener('change', function (evt) {
-    timein.value = evt.target.value;
+  time.addEventListener('change', function (evt) {
+    switch(evt.target.name) {
+      case 'timein':
+        timeout.value = evt.target.value;
+        break;
+      case 'timeout':
+        timein.value = evt.target.value;
+        break;
+    }
   });
 })();
