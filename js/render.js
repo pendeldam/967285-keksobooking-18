@@ -56,7 +56,7 @@
     card.dataset.id = id;
 
     for (var value in props) {
-      if (props.hasOwnProperty(value)) {
+      if (Object.prototype.hasOwnProperty.call(props, value)) {
         var element = card.querySelector(props[value]);
 
         if (item[value]) {
