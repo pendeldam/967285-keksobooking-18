@@ -39,19 +39,19 @@
         case 'flat':
           price.min = '1000';
           price.placeholder = '1000';
-        break;
+          break;
         case 'bungalo':
           price.min = '0';
           price.placeholder = '0';
-        break;
+          break;
         case 'house':
           price.min = '5000';
           price.placeholder = '5000';
-        break;
+          break;
         case 'palace':
           price.min = '10000';
           price.placeholder = '10000';
-        break;
+          break;
       }
     },
     checkGuestsNumber: function () {
@@ -74,7 +74,7 @@
   };
 
   time.addEventListener('change', function (evt) {
-    switch(evt.target.name) {
+    switch (evt.target.name) {
       case 'timein':
         timeout.value = evt.target.value;
         break;

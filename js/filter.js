@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var timeout = null;
-  var filters = {};
+  var activeFilters = {};
   var mapping = {
     'housing-type': 'type',
     'housing-price': 'price',
@@ -13,10 +13,11 @@
     if (price < 10000) {
       return 'low';
     } else if (price > 10000 && price < 50000) {
-        return 'middle';
+      return 'middle';
     } else if (price > 50000) {
-        return 'high';
+      return 'high';
     }
+    return false;
   };
 
   var prepItem = function (item) {
@@ -35,9 +36,9 @@
     return result;
   };
 
-  var checkFilters = function (filters, item) {
-    for (var value in filters) {
-      if (filters[value] !== item[value]) {
+  var checkFilters = function (activeFilters, item) {
+    for (var value in activeFilters) {
+      if (activeFilters[value] !== item[value]) {
         return false;
       }
     }
@@ -55,32 +56,32 @@
     }
 
     var filtered = offers.filter(function (item) {
-      return checkFilters(filters, prepItem(item));
+      return checkFilters(activeFilters, prepItem(item));
     });
 
     if (timeout) {
       clearTimeout(timeout);
     }
-      timeout = setTimeout(function () {
-        window.rendering.renderPins(filtered);
-      }, 500);
+    timeout = setTimeout(function () {
+      window.rendering.renderPins(filtered);
+    }, 500);
   };
 
   window.filtering = {
     addFilter: function (evt) {
       if (event.target.name === 'features') {
-        filters[evt.target.value] = true;
+        activeFilters[evt.target.value] = true;
         if (!evt.target.checked) {
-          delete filters[evt.target.value];
+          delete activeFilters[evt.target.value];
         }
       } else if (event.target.name === 'housing-rooms' || event.target.name === 'housing-guests') {
-          filters[mapping[evt.target.name]] = +evt.target.value;
+        activeFilters[mapping[evt.target.name]] = +evt.target.value;
       } else {
-          filters[mapping[evt.target.name]] = evt.target.value;
+        activeFilters[mapping[evt.target.name]] = evt.target.value;
       }
 
       if (evt.target.value === 'any') {
-        delete filters[mapping[evt.target.name]];
+        delete activeFilters[mapping[evt.target.name]];
       }
 
       filterPins(window.map.offers);

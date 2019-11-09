@@ -63,7 +63,7 @@
     if (evt.keyCode === KEYCODE_ENTER) {
       window.map.disablePage();
     }
-    });
+  });
 
   window.map.disablePage();
 })();

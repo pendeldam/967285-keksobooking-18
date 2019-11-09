@@ -30,22 +30,22 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (evt) {
-      evt.preventDefault();
+    var onMouseMove = function (evtMove) {
+      evtMove.preventDefault();
 
       var shift = {
-        x: startCoords.x - evt.clientX,
-        y: startCoords.y - evt.clientY
+        x: startCoords.x - evtMove.clientX,
+        y: startCoords.y - evtMove.clientY
       };
 
-      startCoords.x = evt.clientX;
-      startCoords.y = evt.clientY;
+      startCoords.x = evtMove.clientX;
+      startCoords.y = evtMove.clientY;
       address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
       checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
     };
 
-    var onMouseUp = function (evt) {
-      evt.preventDefault();
+    var onMouseUp = function (evtUp) {
+      evtUp.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
       address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
@@ -56,8 +56,8 @@
 
   mapPinMain.addEventListener('click', window.map.enablePage);
   mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === KEYCODE_ENTER) {
-    window.map.enablePage();
+    if (evt.keyCode === KEYCODE_ENTER) {
+      window.map.enablePage();
   }
   });
 })();
