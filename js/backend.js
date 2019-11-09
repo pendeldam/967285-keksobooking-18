@@ -8,7 +8,6 @@
   window.backend = {
     load: function (onLoad, onError) {
       var url = 'https://js.dump.academy/keksobooking/data';
-      //var url = 'https://raw.githubusercontent.com/pendeldam/HTMLAcademy/master/data.json';
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
       xhr.addEventListener('load', function () {
@@ -40,8 +39,7 @@
     loadPinsSuccess: function (data) {
       data.forEach(function (item) {
         if (!item.offer) {
-          var index = window.map.offers.indexOf(item);
-          data.splice(index, 1);
+          data.splice(data.indexOf(item), 1);
           return;
         } else {
           window.map.offers.push(item);

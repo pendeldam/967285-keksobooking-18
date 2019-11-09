@@ -13,10 +13,12 @@
   var type = adForm.querySelector('#type');
   var price = adForm.querySelector('#price');
   var address = adForm.querySelector('#address');
+  var isEnabled = false;
 
   window.map = {
     offers: [],
     disablePage: function () {
+      isEnabled = false;
       map.classList.add('map--faded');
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
@@ -40,6 +42,10 @@
       price.placeholder = '1000';
     },
     enablePage: function () {
+      if (isEnabled) {
+        return;
+      }
+      isEnabled = true;
       map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
       window.form.enableForm(adForm, 'fieldset');
