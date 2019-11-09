@@ -65,36 +65,36 @@
           } else if (value === 'price') {
             element.innerHTML = item[value] + ' &#x20bd;<span>/ночь</span>';
           } else if (value === 'rooms') {
-          element.textContent = item[value] + ' комнаты для ';
+            element.textContent = item[value] + ' комнаты для ';
           } else if (value === 'guests') {
-          element.textContent += item[value] + ' гостей';
+            element.textContent += item[value] + ' гостей';
           } else if (value === 'checkin') {
-          element.textContent = 'Заезд после ' + item[value];
+            element.textContent = 'Заезд после ' + item[value];
           } else if (value === 'checkout') {
-          element.textContent += '. Выезд до ' + item[value];
+            element.textContent += '. Выезд до ' + item[value];
           } else if (value === 'features' && item[value].length > 0) {
-          element.innerHTML = '';
-          item[value].forEach(function (feature) {
-            var li = document.createElement('li');
-            li.className = 'popup__feature popup__feature--' + feature;
-            element.appendChild(li);
-          });
+            element.innerHTML = '';
+            item[value].forEach(function (feature) {
+              var li = document.createElement('li');
+              li.className = 'popup__feature popup__feature--' + feature;
+              element.appendChild(li);
+            });
           } else if (value === 'photos' && item[value].length > 0) {
-          element.innerHTML = '';
-          item[value].forEach(function (photo) {
-            var li = document.createElement('img');
-            li.className = 'popup__photo';
-            li.src = photo;
-            li.width = 45;
-            li.height = 40;
-            li.alt = 'offer image';
-            element.appendChild(li);
-          });
+            element.innerHTML = '';
+            item[value].forEach(function (photo) {
+              var li = document.createElement('img');
+              li.className = 'popup__photo';
+              li.src = photo;
+              li.width = 45;
+              li.height = 40;
+              li.alt = 'offer image';
+              element.appendChild(li);
+            });
           } else {
-          element.textContent = item[value];
-          }
+            element.textContent = item[value];
+            }
         } else {
-        element.style.display = 'none';
+          element.style.display = 'none';
         }
       }
     }
