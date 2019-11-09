@@ -56,29 +56,30 @@
     card.dataset.id = id;
 
     for (var value in props) {
-      var element = card.querySelector(props[value]);
+      if (props.hasOwnProperty(value)) {
+        var element = card.querySelector(props[value]);
 
-      if (item[value]) {
-        if (value === 'avatar') {
-          element.src = item[value];
-        } else if (value === 'price') {
-          element.innerHTML = item[value] + ' &#x20bd;<span>/ночь</span>';
-        } else if (value === 'rooms') {
+        if (item[value]) {
+          if (value === 'avatar') {
+            element.src = item[value];
+          } else if (value === 'price') {
+            element.innerHTML = item[value] + ' &#x20bd;<span>/ночь</span>';
+          } else if (value === 'rooms') {
           element.textContent = item[value] + ' комнаты для ';
-        } else if (value === 'guests') {
+          } else if (value === 'guests') {
           element.textContent += item[value] + ' гостей';
-        } else if (value === 'checkin') {
+          } else if (value === 'checkin') {
           element.textContent = 'Заезд после ' + item[value];
-        } else if (value === 'checkout') {
+          } else if (value === 'checkout') {
           element.textContent += '. Выезд до ' + item[value];
-        } else if (value === 'features' && item[value].length > 0) {
+          } else if (value === 'features' && item[value].length > 0) {
           element.innerHTML = '';
           item[value].forEach(function (feature) {
             var li = document.createElement('li');
             li.className = 'popup__feature popup__feature--' + feature;
             element.appendChild(li);
           });
-        } else if (value === 'photos' && item[value].length > 0) {
+          } else if (value === 'photos' && item[value].length > 0) {
           element.innerHTML = '';
           item[value].forEach(function (photo) {
             var li = document.createElement('img');
@@ -89,11 +90,12 @@
             li.alt = 'offer image';
             element.appendChild(li);
           });
-        } else {
+          } else {
           element.textContent = item[value];
-        }
-      } else {
+          }
+        } else {
         element.style.display = 'none';
+        }
       }
     }
     return card;
@@ -110,10 +112,10 @@
     pin.dataset.id = window.map.offers.indexOf(ad);
     pin.addEventListener('mousedown', window.card.openCardHandler);
     pin.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === KEYCODE_ENTER) {
-          window.card.openCardHandler(evt);
-        }
-      });
+      if (evt.keyCode === KEYCODE_ENTER) {
+        window.card.openCardHandler(evt);
+      }
+    });
     return pin;
   };
 

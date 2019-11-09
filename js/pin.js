@@ -58,6 +58,6 @@
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEYCODE_ENTER) {
       window.map.enablePage();
-  }
+    }
   });
 })();

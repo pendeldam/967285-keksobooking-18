@@ -36,9 +36,9 @@
     return result;
   };
 
-  var checkFilters = function (activeFilters, item) {
-    for (var value in activeFilters) {
-      if (activeFilters[value] !== item[value]) {
+  var checkFilters = function (filters, item) {
+    for (var value in filters) {
+      if (filters[value] !== item[value]) {
         return false;
       }
     }
