@@ -92,7 +92,7 @@
             });
           } else {
             element.textContent = item[value];
-            }
+          }
         } else {
           element.style.display = 'none';
         }
