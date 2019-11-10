@@ -92,6 +92,10 @@
         });
         reader.readAsDataURL(file);
       }
+    },
+    sendForm: function (evt) {
+      evt.preventDefault();
+      window.backend.save(new FormData(adForm), window.backend.sendFormSuccess, window.backend.sendFormError);
     }
   };
 })();

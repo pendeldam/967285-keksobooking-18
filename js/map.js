@@ -40,6 +40,7 @@
         pin.removeEventListener('mousedown', window.card.openCardHandler);
         pin.remove();
       });
+      adForm.removeEventListener('submit', window.form.sendForm);
       avatar.removeEventListener('change', window.form.uploadImage);
       photo.removeEventListener('change', window.form.uploadImage);
       roomNumber.removeEventListener('change', window.form.checkGuestsNumber);
@@ -47,6 +48,7 @@
       type.removeEventListener('change', window.form.checkOfferPrice);
       timein.removeEventListener('change', window.form.checkTime);
       timeout.removeEventListener('change', window.form.checkTime);
+      mapFilters.removeEventListener('change', window.filtering.addFilter);
 
       address.value = Math.ceil(mapPinMainStartX + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMainStartY + mapPinMain.offsetHeight / 2);
       mapPinMain.style.left = mapPinMainStartX + 'px';
@@ -73,11 +75,7 @@
       timein.addEventListener('change', window.form.checkTime);
       timeout.addEventListener('change', window.form.checkTime);
       mapFilters.addEventListener('change', window.filtering.addFilter);
-
-      adForm.addEventListener('submit', function (evt) {
-        evt.preventDefault();
-        window.backend.save(new FormData(adForm), window.backend.sendFormSuccess, window.backend.sendFormError);
-      });
+      adForm.addEventListener('submit', window.form.sendForm);
     }
   };
 

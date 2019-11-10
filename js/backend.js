@@ -6,6 +6,17 @@
   var KEYCODE_ESC = 27;
   var TIMEOUT = 10000;
 
+  var closeMsg = function () {
+    document.body.firstElementChild.remove();
+    document.body.removeEventListener('click', closeMsg);
+    document.body.removeEventListener('keydown', onCloseMsg);
+  };
+  var onCloseMsg = function (evt) {
+    if (evt.keyCode === KEYCODE_ESC) {
+      closeMsg();
+    }
+  };
+
   window.backend = {
     load: function (onLoad, onError) {
       var url = 'https://js.dump.academy/keksobooking/data';
@@ -58,30 +69,16 @@
       var successMsg = formSuccessTemplate.cloneNode(true);
       document.body.insertAdjacentElement('afterbegin', successMsg);
       window.map.disablePage();
-      document.body.addEventListener('click', function () {
-        successMsg.remove();
-      });
-      document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === KEYCODE_ESC) {
-          successMsg.remove();
-        }
-      });
+      document.body.addEventListener('click', closeMsg);
+      document.body.addEventListener('keydown', onCloseMsg);
     },
     sendFormError: function () {
       var errorMsg = formErrorTemplate.cloneNode(true);
-      document.querySelector('main').insertAdjacentElement('afterbegin', errorMsg);
+      document.body.insertAdjacentElement('afterbegin', errorMsg);
       window.map.disablePage();
-      document.body.addEventListener('click', function () {
-        errorMsg.remove();
-      });
-      document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === KEYCODE_ESC) {
-          errorMsg.remove();
-        }
-      });
-      document.querySelector('.error__button').addEventListener('click', function () {
-        errorMsg.remove();
-      });
-    },
+      document.body.addEventListener('click', closeMsg);
+      document.body.addEventListener('keydown', onCloseMsg);
+      document.querySelector('.error__button').addEventListener('click', closeMsg);
+    }
   };
 })();
