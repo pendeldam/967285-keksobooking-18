@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var KEYCODE_ENTER = 13;
+  var COORD_MIN_Y = 130;
+  var COORD_MAX_Y = 630;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var mapPinMain = map.querySelector('.map__pin--main');
@@ -14,10 +16,10 @@
     } else {
       mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
     }
-    if (startY < 130 - mapPinMain.offsetHeight) {
-      mapPinMain.style.top = 130 - mapPinMain.offsetHeight + 'px';
-    } else if (startY > 630 + mapPinMain.offsetHeight) {
-      mapPinMain.style.top = 630 + 'px';
+    if (startY < COORD_MIN_Y - mapPinMain.offsetHeight) {
+      mapPinMain.style.top = COORD_MIN_Y - mapPinMain.offsetHeight + 'px';
+    } else if (startY > COORD_MAX_Y + mapPinMain.offsetHeight) {
+      mapPinMain.style.top = COORD_MAX_Y + 'px';
     } else {
       mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
     }

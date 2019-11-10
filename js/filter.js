@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var PRICE_LOW = 10000;
+  var PRICE_HIGH = 50000;
   var timeout = null;
   var activeFilters = {};
   var mapping = {
@@ -10,11 +12,11 @@
   };
 
   var convertPrice = function (price) {
-    if (price < 10000) {
+    if (price < PRICE_LOW) {
       return 'low';
-    } else if (price > 10000 && price < 50000) {
+    } else if (price > PRICE_LOW && price < PRICE_HIGH) {
       return 'middle';
-    } else if (price > 50000) {
+    } else if (price > PRICE_HIGH) {
       return 'high';
     }
     return false;

@@ -4,6 +4,7 @@
   var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
   var mapFilters = document.querySelector('.map__filters');
   var KEYCODE_ESC = 27;
+  var TIMEOUT = 10000;
 
   window.backend = {
     load: function (onLoad, onError) {
@@ -17,7 +18,7 @@
           onError(xhr.status);
         }
       });
-      xhr.timeout = 10000;
+      xhr.timeout = TIMEOUT;
       xhr.open('get', url);
       xhr.send();
     },
@@ -32,7 +33,7 @@
           onError('Error ' + xhr.status);
         }
       });
-      xhr.timeout = 10000;
+      xhr.timeout = TIMEOUT;
       xhr.open('post', url);
       xhr.send(data);
     },

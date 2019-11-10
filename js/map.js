@@ -10,6 +10,8 @@
   var mapPinMainStartY = mapPinMain.offsetTop;
   var capacity = adForm.querySelector('#capacity');
   var roomNumber = adForm.querySelector('#room_number');
+  var timein = adForm.querySelector('#timein');
+  var timeout = adForm.querySelector('#timeout');
   var type = adForm.querySelector('#type');
   var price = adForm.querySelector('#price');
   var address = adForm.querySelector('#address');
@@ -55,6 +57,8 @@
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
       capacity.addEventListener('change', window.form.checkGuestsNumber);
       type.addEventListener('change', window.form.checkOfferPrice);
+      timein.addEventListener('change', window.form.checkTime);
+      timeout.addEventListener('change', window.form.checkTime);
       mapFilters.addEventListener('change', window.filtering.addFilter);
 
       adForm.addEventListener('submit', function (evt) {

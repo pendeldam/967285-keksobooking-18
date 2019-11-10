@@ -5,6 +5,8 @@
   var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var KEYCODE_ENTER = 13;
+  var PHOTOS_WIDTH = 45;
+  var PHOTOS_HEIGHT = 40;
   var mapping = {
     'title': '.popup__title',
     'address': '.popup__text--address',
@@ -85,8 +87,8 @@
               var li = document.createElement('img');
               li.className = 'popup__photo';
               li.src = photo;
-              li.width = 45;
-              li.height = 40;
+              li.width = PHOTOS_WIDTH;
+              li.height = PHOTOS_HEIGHT;
               li.alt = 'offer image';
               element.appendChild(li);
             });

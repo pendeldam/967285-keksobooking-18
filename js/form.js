@@ -3,7 +3,6 @@
   var adForm = document.querySelector('.ad-form');
   var title = adForm.querySelector('#title');
   var description = adForm.querySelector('#description');
-  var time = adForm.querySelector('.ad-form__element--time');
   var timein = adForm.querySelector('#timein');
   var timeout = adForm.querySelector('#timeout');
   var capacity = adForm.querySelector('#capacity');
@@ -27,12 +26,8 @@
       roomNumber.removeEventListener('change', window.form.checkGuestsNumber);
       capacity.removeEventListener('change', window.form.checkGuestsNumber);
       type.removeEventListener('change', window.form.checkOfferPrice);
-      timein.removeEventListener('change', function (evt) {
-        timeout.value = evt.target.value;
-      });
-      timeout.removeEventListener('change', function (evt) {
-        timein.value = evt.target.value;
-      });
+      timein.removeEventListener('change', window.form.checkTime);
+      timeout.removeEventListener('change', window.form.checkTime);
     },
     checkOfferPrice: function (evt) {
       switch (evt.target.value) {
@@ -70,17 +65,16 @@
         capacity.setCustomValidity('');
         capacity.style.borderColor = '';
       }
+    },
+    checkTime: function (evt) {
+      switch (evt.target.name) {
+        case 'timein':
+          timeout.value = evt.target.value;
+          break;
+        case 'timeout':
+          timein.value = evt.target.value;
+          break;
+      }
     }
   };
-
-  time.addEventListener('change', function (evt) {
-    switch (evt.target.name) {
-      case 'timein':
-        timeout.value = evt.target.value;
-        break;
-      case 'timeout':
-        timein.value = evt.target.value;
-        break;
-    }
-  });
 })();
