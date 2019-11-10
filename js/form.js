@@ -1,14 +1,16 @@
 'use strict';
 (function () {
   var adForm = document.querySelector('.ad-form');
+  var avatar = adForm.querySelector('.ad-form-header__preview img');
+  var photo = adForm.querySelector('.ad-form__photo');
   var title = adForm.querySelector('#title');
   var description = adForm.querySelector('#description');
   var timein = adForm.querySelector('#timein');
   var timeout = adForm.querySelector('#timeout');
   var capacity = adForm.querySelector('#capacity');
   var roomNumber = adForm.querySelector('#room_number');
-  var type = adForm.querySelector('#type');
   var price = adForm.querySelector('#price');
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   window.form = {
     enableForm: function (form, input) {
@@ -23,11 +25,6 @@
       form.querySelectorAll(input).forEach(function (item) {
         item.setAttribute('disabled', true);
       });
-      roomNumber.removeEventListener('change', window.form.checkGuestsNumber);
-      capacity.removeEventListener('change', window.form.checkGuestsNumber);
-      type.removeEventListener('change', window.form.checkOfferPrice);
-      timein.removeEventListener('change', window.form.checkTime);
-      timeout.removeEventListener('change', window.form.checkTime);
     },
     checkOfferPrice: function (evt) {
       switch (evt.target.value) {
@@ -74,6 +71,26 @@
         case 'timeout':
           timein.value = evt.target.value;
           break;
+      }
+    },
+    uploadImage: function (evt) {
+      var file = evt.target.files[0];
+      var filename = file.name.toLowerCase();
+
+      var match = FILE_TYPES.some(function (type) {
+        return filename.endsWith(type);
+      });
+
+      if (match) {
+        var reader = new FileReader();
+        reader.addEventListener('load', function () {
+          if (evt.target.name === 'avatar') {
+            avatar.src = reader.result;
+          } else {
+            photo.style.background = 'no-repeat center/100% url(' + reader.result + ')';
+          }
+        });
+        reader.readAsDataURL(file);
       }
     }
   };
