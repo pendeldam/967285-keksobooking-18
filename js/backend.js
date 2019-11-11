@@ -26,14 +26,14 @@
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
-          onError(xhr.status);
+          onError('Ошибка загрузки объявления (код: ' + xhr.status + ')');
         }
       });
 
       xhr.addEventListener('error', function () {
         onError('Ошибка соединения');
       });
-      
+
       xhr.addEventListener('timeout', function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
@@ -71,8 +71,12 @@
     },
     loadPinsError: function (msg) {
       var errorElement = formErrorTemplate.cloneNode(true);
-      errorElement.firstElementChild.textContent = 'Ошибка загрузки объявления ' + '(код: ' + msg + ')';
+      errorElement.firstElementChild.textContent = msg;
       document.body.insertAdjacentElement('afterbegin', errorElement);
+      window.map.disablePage();
+      document.body.addEventListener('click', closeMsg);
+      document.body.addEventListener('keydown', onCloseMsg);
+      document.querySelector('.error__button').addEventListener('click', closeMsg);
     },
     sendFormSuccess: function () {
       var successMsg = formSuccessTemplate.cloneNode(true);
