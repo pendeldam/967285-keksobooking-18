@@ -29,6 +29,15 @@
           onError(xhr.status);
         }
       });
+
+      xhr.addEventListener('error', function () {
+        onError('Ошибка соединения');
+      });
+      
+      xhr.addEventListener('timeout', function () {
+        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      });
+
       xhr.timeout = TIMEOUT;
       xhr.open('get', url);
       xhr.send();
