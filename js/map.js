@@ -23,6 +23,7 @@
     offers: [],
     disablePage: function () {
       isEnabled = false;
+      window.map.offers = [];
       map.classList.add('map--faded');
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
