@@ -17,9 +17,9 @@
       mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
     }
     if (startY < COORD_MIN_Y - mapPinMain.offsetHeight) {
-      mapPinMain.style.top = COORD_MIN_Y - mapPinMain.offsetHeight + 'px';
-    } else if (startY > COORD_MAX_Y + mapPinMain.offsetHeight) {
-      mapPinMain.style.top = COORD_MAX_Y + 'px';
+      mapPinMain.style.top = COORD_MIN_Y + 'px';
+    } else if (startY > COORD_MAX_Y - mapPinMain.offsetHeight) {
+      mapPinMain.style.top = COORD_MAX_Y - mapPinMain.offsetHeight + 'px';
     } else {
       mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
     }
