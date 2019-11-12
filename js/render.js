@@ -126,7 +126,7 @@
       var fragment = document.createDocumentFragment();
       var number = data.length > 5 ? 5 : data.length;
 
-      data.slice().splice(0 ,number).forEach(function (pin) {
+      data.slice().splice(0, number).forEach(function (pin) {
         fragment.appendChild(renderPin(pin));
       });
       mapPins.appendChild(fragment);

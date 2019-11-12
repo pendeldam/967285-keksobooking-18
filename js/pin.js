@@ -28,7 +28,6 @@
 
       var coordX = mapPinMain.offsetLeft - shift.x;
       var coordY = mapPinMain.offsetTop - shift.y;
-      console.log('x: ', coordX, 'y: ', coordY);
 
       coordX = coordX < -mapPinMain.offsetWidth / 2 ? -mapPinMain.offsetWidth / 2 : coordX;
       coordX = coordX > mapPins.offsetWidth - mapPinMain.offsetWidth / 2 ? mapPins.offsetWidth - mapPinMain.offsetWidth / 2 : coordX;
