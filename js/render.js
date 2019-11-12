@@ -126,9 +126,9 @@
       var fragment = document.createDocumentFragment();
       var number = data.length > 5 ? 5 : data.length;
 
-      for (var i = 0; i < number; i++) {
-        fragment.appendChild(renderPin(data[i]));
-      }
+      data.slice().splice(0 ,number).forEach(function (pin) {
+        fragment.appendChild(renderPin(pin));
+      });
       mapPins.appendChild(fragment);
     },
     renderCard: function (ad, id) {

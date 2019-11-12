@@ -8,23 +8,6 @@
   var mapPinMain = map.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
 
-  var checkPinCoords = function (startX, startY, shiftX, shiftY) {
-    if (startX < mapPins.offsetParent.offsetLeft) {
-      mapPinMain.style.left = mapPins.offsetParent.offsetLeft - mapPins.offsetParent.offsetLeft - mapPinMain.offsetWidth / 2 + 'px';
-    } else if (startX > map.offsetWidth + map.offsetLeft) {
-      mapPinMain.style.left = map.offsetWidth - mapPinMain.offsetWidth / 2 + 'px';
-    } else {
-      mapPinMain.style.left = (mapPinMain.offsetLeft - shiftX) + 'px';
-    }
-    if (startY < COORD_MIN_Y - mapPinMain.offsetHeight) {
-      mapPinMain.style.top = COORD_MIN_Y + 'px';
-    } else if (startY > COORD_MAX_Y - mapPinMain.offsetHeight) {
-      mapPinMain.style.top = COORD_MAX_Y - mapPinMain.offsetHeight + 'px';
-    } else {
-      mapPinMain.style.top = (mapPinMain.offsetTop - shiftY) + 'px';
-    }
-  };
-
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -42,15 +25,26 @@
 
       startCoords.x = evtMove.clientX;
       startCoords.y = evtMove.clientY;
-      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
-      checkPinCoords(startCoords.x, startCoords.y, shift.x, shift.y);
+
+      var coordX = mapPinMain.offsetLeft - shift.x;
+      var coordY = mapPinMain.offsetTop - shift.y;
+      console.log('x: ', coordX, 'y: ', coordY);
+
+      coordX = coordX < -mapPinMain.offsetWidth / 2 ? -mapPinMain.offsetWidth / 2 : coordX;
+      coordX = coordX > mapPins.offsetWidth - mapPinMain.offsetWidth / 2 ? mapPins.offsetWidth - mapPinMain.offsetWidth / 2 : coordX;
+      coordY = coordY < COORD_MIN_Y - mapPinMain.offsetHeight + mapPinMain.offsetHeight ? COORD_MIN_Y - mapPinMain.offsetHeight + mapPinMain.offsetHeight : coordY;
+      coordY = coordY > COORD_MAX_Y - mapPinMain.offsetHeight ? COORD_MAX_Y - mapPinMain.offsetHeight : coordY;
+
+      mapPinMain.style.left = coordX + 'px';
+      mapPinMain.style.top = coordY + 'px';
+
+      address.value = Math.ceil(coordX + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(coordY + mapPinMain.offsetHeight);
     };
 
     var onMouseUp = function (evtUp) {
       evtUp.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      address.value = Math.ceil(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMain.offsetTop + mapPinMain.offsetHeight);
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
