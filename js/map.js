@@ -47,8 +47,8 @@
       roomNumber.removeEventListener('change', window.form.checkGuestsNumber);
       capacity.removeEventListener('change', window.form.checkGuestsNumber);
       type.removeEventListener('change', window.form.checkOfferPrice);
-      timein.removeEventListener('change', window.form.checkTime);
-      timeout.removeEventListener('change', window.form.checkTime);
+      timein.removeEventListener('change', window.form.checkTimeIn);
+      timeout.removeEventListener('change', window.form.checkTimeOut);
       mapFilters.removeEventListener('change', window.filtering.addFilter);
 
       address.value = Math.ceil(mapPinMainStartX + mapPinMain.offsetWidth / 2) + ', ' + Math.ceil(mapPinMainStartY + mapPinMain.offsetHeight / 2);
@@ -73,8 +73,8 @@
       roomNumber.addEventListener('change', window.form.checkGuestsNumber);
       capacity.addEventListener('change', window.form.checkGuestsNumber);
       type.addEventListener('change', window.form.checkOfferPrice);
-      timein.addEventListener('change', window.form.checkTime);
-      timeout.addEventListener('change', window.form.checkTime);
+      timein.addEventListener('change', window.form.checkTimeIn);
+      timeout.addEventListener('change', window.form.checkTimeOut);
       mapFilters.addEventListener('change', window.filtering.addFilter);
       adForm.addEventListener('submit', window.form.sendForm);
     }

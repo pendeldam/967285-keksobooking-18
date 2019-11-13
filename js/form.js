@@ -63,15 +63,11 @@
         capacity.style.borderColor = '';
       }
     },
-    checkTime: function (evt) {
-      switch (evt.target.name) {
-        case 'timein':
-          timeout.value = evt.target.value;
-          break;
-        case 'timeout':
-          timein.value = evt.target.value;
-          break;
-      }
+    checkTimeIn: function (evt) {
+      timeout.value = evt.target.value
+    },
+    checkTimeOut: function (evt) {
+      timein.value = evt.target.value
     },
     uploadImage: function (evt) {
       var file = evt.target.files[0];
