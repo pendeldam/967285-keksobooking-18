@@ -64,10 +64,10 @@
       }
     },
     checkTimeIn: function (evt) {
-      timeout.value = evt.target.value
+      timeout.value = evt.target.value;
     },
     checkTimeOut: function (evt) {
-      timein.value = evt.target.value
+      timein.value = evt.target.value;
     },
     uploadImage: function (evt) {
       var file = evt.target.files[0];
